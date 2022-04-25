@@ -1,0 +1,46 @@
+<mat-stepper orientation="vertical" [linear]="true" #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel>Was ist der Name des Events</ng-template>
+            <mat-form-field appearance="fill">
+                <mat-label>Name</mat-label>
+                <input matInput placeholder="Name" formControlName="firstCtrl" required>
+            </mat-form-field>
+            <div>
+                <button mat-button matStepperNext>Weiter</button>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+        <form [formGroup]="secondFormGroup">
+            <ng-template matStepLabel>Bitte wähle die gewünschten Produkte aus</ng-template>
+                <div *ngFor = "let product of products | async">
+                    <mat-checkbox class="example-margin" (change)="selectionChanged(product, $event.checked)">{{product.name}}</mat-checkbox>
+                </div>
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="thirdFormGroup">
+        <form [formGroup]="thirdFormGroup">
+            <ng-template matStepLabel>Initiale Preise setzen</ng-template>
+            <div *ngFor = "let product of selectedProducts">
+                <mat-checkbox class="example-margin" (change)="selectionChanged(product, $event.checked)">{{product.name}}</mat-checkbox>
+            </div>
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        <p>You are now done.</p>
+        <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button (click)="stepper.reset()">Reset</button>
+        </div>
+    </mat-step>
+</mat-stepper>
